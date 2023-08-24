@@ -1,21 +1,30 @@
 package guru.springframework.spring6webapp.Bootstrap;
 
+import guru.springframework.spring6webapp.domain.Address;
 import guru.springframework.spring6webapp.domain.Author;
 import guru.springframework.spring6webapp.domain.Book;
+import guru.springframework.spring6webapp.domain.Publisher;
+import guru.springframework.spring6webapp.repository.AddressRepository;
 import guru.springframework.spring6webapp.repository.AuthorRepository;
 import guru.springframework.spring6webapp.repository.BookRepository;
-import jakarta.transaction.Transactional;
+import guru.springframework.spring6webapp.repository.PublisherRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import java.sql.SQLOutput;
 
 @Component
 public class BootstrapData implements CommandLineRunner {
     private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
+    private final AddressRepository addressRepository;
+    private final PublisherRepository publisherRepository;
 
-    public BootstrapData(AuthorRepository authorRepository, BookRepository bookRepository) {
+    public BootstrapData(AuthorRepository authorRepository, BookRepository bookRepository, AddressRepository addressRepository, PublisherRepository publisherRepository) {
         this.authorRepository = authorRepository;
         this.bookRepository = bookRepository;
+        this.addressRepository = addressRepository;
+        this.publisherRepository = publisherRepository;
     }
 
     @Override
@@ -51,5 +60,19 @@ public class BootstrapData implements CommandLineRunner {
         System.out.println("In Bootstrap");
         System.out.println("Author Count: " + authorRepository.count());
         System.out.println("Book Count: " + bookRepository.count());
+
+
+        Address addressPruszynski = new Address();
+        addressPruszynski.setCity("Warszawa");
+        addressPruszynski.setState("Mazowieckie");
+
+        Publisher pruszynski = new Publisher();
+        pruszynski.getAddress().add(addressPruszynski);
+
+        Publisher savedPruszynski = publisherRepository.save(pruszynski);
+
+        System.out.println("--------------------------");
+        System.out.println("Publisher Count: " + publisherRepository.count());
+        System.out.println(savedPruszynski);
     }
 }
