@@ -29,6 +29,16 @@ public class BootstrapData implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        Address addressPruszynski = new Address();
+        addressPruszynski.setCity("Warszawa");
+        addressPruszynski.setState("Mazowieckie");
+        Publisher pruszynski = new Publisher();
+        pruszynski.setPublisherName("Pruszynski");
+        pruszynski.getAddress().add(addressPruszynski);
+        addressPruszynski.setPublisher(pruszynski);
+        Publisher savedPruszynski = publisherRepository.save(pruszynski);
+        Address savedAddressPruszynski = addressRepository.save(addressPruszynski);
+
         Author eric = new Author();
         eric.setFirstName("Eric");
         eric.setLastName("Evans");
@@ -36,9 +46,9 @@ public class BootstrapData implements CommandLineRunner {
         Book ddd = new Book();
         ddd.setTitle("Domain Driven Design");
         ddd.setIsbn("123456");
+        ddd.setPublisher(savedPruszynski);
 
         Author ericSaved = authorRepository.save(eric);
-        Book dddSaved = bookRepository.save(ddd);
 
         Author rod = new Author();
         rod.setFirstName("Rod");
@@ -47,7 +57,9 @@ public class BootstrapData implements CommandLineRunner {
         Book noEJB = new Book();
         noEJB.setTitle("J2EE Development without EJB");
         noEJB.setIsbn("54757585");
+        noEJB.setPublisher(savedPruszynski);
 
+        Book dddSaved = bookRepository.save(ddd);
         Author rodSaved = authorRepository.save(rod);
         Book noEJBSaved = bookRepository.save(noEJB);
 
@@ -62,21 +74,14 @@ public class BootstrapData implements CommandLineRunner {
         System.out.println("Book Count: " + bookRepository.count());
 
 
-        Address addressPruszynski = new Address();
-        addressPruszynski.setCity("Warszawa");
-        addressPruszynski.setState("Mazowieckie");
-        Address savedAddressPruszynski = addressRepository.save(addressPruszynski);
 
-        Publisher pruszynski = new Publisher();
-        pruszynski.setPublisherName("Pruszynski");
-        pruszynski.getAddress().add(addressPruszynski);
 
-        Publisher savedPruszynski = publisherRepository.save(pruszynski);
 
         ddd.setPublisher(savedPruszynski);
 
         System.out.println("--------------------------");
         System.out.println("Publisher Count: " + publisherRepository.count());
         System.out.println("Ddd book: " + ddd);
+        System.out.println("Publisher: " + savedPruszynski);
     }
 }

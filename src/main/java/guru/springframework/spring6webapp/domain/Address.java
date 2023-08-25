@@ -11,7 +11,7 @@ public class Address {
     private String state;
 
     @ManyToOne
-    @JoinColumn(name="address_id")
+    @JoinColumn(name="publisher_id")
     private Publisher publisher;
 
     public Publisher getPublisher() {

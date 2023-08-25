@@ -12,7 +12,7 @@ public class Publisher {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String PublisherName;
+    private String publisherName;
     @OneToMany(mappedBy="id")
     private List<Address> address = new ArrayList<>();
 
@@ -28,11 +28,11 @@ public class Publisher {
     }
 
     public String getPublisherName() {
-        return PublisherName;
+        return publisherName;
     }
 
     public void setPublisherName(String publisherName) {
-        PublisherName = publisherName;
+        this.publisherName = publisherName;
     }
 
     public List<Address> getAddress() {
@@ -47,7 +47,7 @@ public class Publisher {
     public String toString() {
         return "Publisher{" +
                 "id=" + id +
-                ", PublisherName='" + PublisherName + '\'' +
+                ", PublisherName='" + publisherName + '\'' +
                 ", address=" + address +
                 '}';
     }
