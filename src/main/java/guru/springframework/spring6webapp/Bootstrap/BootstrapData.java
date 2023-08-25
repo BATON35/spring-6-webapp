@@ -65,14 +65,18 @@ public class BootstrapData implements CommandLineRunner {
         Address addressPruszynski = new Address();
         addressPruszynski.setCity("Warszawa");
         addressPruszynski.setState("Mazowieckie");
+        Address savedAddressPruszynski = addressRepository.save(addressPruszynski);
 
         Publisher pruszynski = new Publisher();
+        pruszynski.setPublisherName("Pruszynski");
         pruszynski.getAddress().add(addressPruszynski);
 
         Publisher savedPruszynski = publisherRepository.save(pruszynski);
 
+        ddd.setPublisher(savedPruszynski);
+
         System.out.println("--------------------------");
         System.out.println("Publisher Count: " + publisherRepository.count());
-        System.out.println(savedPruszynski);
+        System.out.println("Ddd book: " + ddd);
     }
 }
